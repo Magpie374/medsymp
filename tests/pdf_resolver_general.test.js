@@ -1,0 +1,16 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const code=fs.readFileSync(require('path').join(__dirname,'../script.js'),'utf8');
+const document={getElementById:()=>({addEventListener(){},replaceChildren(){},classList:{add(){},remove(){}},value:'',append(){}})};
+const ctx=vm.createContext({URL,URLSearchParams,setTimeout,clearTimeout,console,document});
+vm.runInContext(code,ctx);
+const run=expr=>vm.runInContext(expr,ctx);
+const nda={application_number:'NDA219474',submissions:[{submission_status_date:'20260212',application_docs:[{type:'Label',url:'https://www.accessdata.fda.gov/drugsatfda_docs/label/2026/219474Orig1s000lbl.pdf',date:'20260212'}]}]};
+const candidates=run(`labelPdfCandidates(${JSON.stringify(nda)})`);
+assert.equal(candidates.length,1);assert.ok(candidates[0].url.endsWith('219474Orig1s000lbl.pdf'));
+const multiple={submissions:[{application_docs:[{type:'Label',url:'https://www.accessdata.fda.gov/old.pdf',date:'20220101'},{type:'Label',url:'https://www.accessdata.fda.gov/new.pdf',date:'20260212'},{type:'Review',url:'https://www.accessdata.fda.gov/review.pdf',date:'20270101'},{type:'Label',url:'https://example.com/evil.pdf',date:'20280101'}]}]};
+assert.equal(run(`labelPdfCandidates(${JSON.stringify(multiple)})`)[0].url,'https://www.accessdata.fda.gov/new.pdf');
+assert.equal(run(`normalizeApplication('NDA0219474')`),'219474');
+assert.equal(run(`normalizeApplication('219474')`),'219474');
+assert.ok(!code.includes('REFERENCE_PDFS'));
+assert.ok(!code.includes('if(brandNames.some(x=>x===\'repatha\')'));
+console.log('Generic PDF metadata parsing tests passed');

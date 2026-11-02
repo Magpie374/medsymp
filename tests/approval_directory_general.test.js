@@ -1,0 +1,17 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const source=fs.readFileSync('script.js','utf8');
+const begin=source.indexOf('function applicationNumberOf(item){');
+const end=source.indexOf('async function resolveApprovalByName(drug){',begin);
+const code=source.slice(begin,end);
+const context={normalize:s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()};
+vm.createContext(context);vm.runInContext(code,context);
+const example={application_number:'NDA220415',products:[{brand_name:'JUVMO',active_ingredients:[{name:'TAVAPADON'}]}]};
+assert.equal(context.applicationNumberOf(example),'220415');
+assert(context.matchingApprovedApplication(example,'Juvmo'));
+assert(context.matchingApprovedApplication(example,'tavapadon'));
+assert(!context.matchingApprovedApplication(example,'Juvmo XR'));
+const combo={application_number:'NDA123456',products:[{brand_name:'NEWCOMBO',active_ingredients:[{name:'ONE'},{name:'TWO'}]}]};
+assert(context.matchingApprovedApplication(combo,'NEWCOMBO'));
+assert(!context.matchingApprovedApplication(combo,'THREE'));
+assert.equal(context.applicationNumberOf({application_number:'nonsense'}),null);
+console.log('General approval lookup tests passed');

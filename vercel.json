@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    {"source": "/api/find", "destination": "/api?mode=find"},
+    {"source": "/api/spl/:setid", "destination": "/api?setid=:setid"}
+  ]
+}

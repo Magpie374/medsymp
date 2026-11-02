@@ -1,0 +1,10 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const source=fs.readFileSync('script.js','utf8');
+const stub={value:'',addEventListener(){},classList:{add(){},remove(){}},replaceChildren(){},textContent:''};
+const sandbox={document:{getElementById(){return stub;}},URL,AbortController,setTimeout,clearTimeout,console};
+vm.createContext(sandbox);vm.runInContext(source,sandbox);
+const record={openfda:{brand_name:['ZAYNICH'],generic_name:['zidebactam dihydrate and cefepime hydrochloride'],substance_name:['ZIDEBACTAM DIHYDRATE','CEFEPIME HYDROCHLORIDE'],route:['INTRAVENOUS'],dosage_form:['INJECTION, POWDER, FOR SOLUTION']},adverse_reactions:['Headache was reported.'],set_id:'abc'};
+assert.strictEqual(sandbox.suitableRecord(record,'Zaynich')>0,true);
+assert.strictEqual(sandbox.filterProductRecords([record],'Zaynich').records.length,1);
+assert.strictEqual(sandbox.verifiedRecentLabel('Zaynich').source,'FDA PDF');
+console.log('Combination brand and verified label fallback tests passed');

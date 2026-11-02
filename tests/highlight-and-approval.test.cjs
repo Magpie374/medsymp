@@ -1,0 +1,10 @@
+const fs=require('fs'), assert=require('assert');
+const code=fs.readFileSync('script.js','utf8');
+assert(code.includes('function addHighlightedExcerpt'));
+assert(code.includes("document.createTextNode"));
+assert(code.includes('resolveApprovalViaServer'));
+assert(!code.includes('innerHTML'));
+const api=fs.readFileSync('api/approval.js','utf8');
+assert(api.includes('matches(item,wanted,type)'));
+assert(api.includes('verified:false'));
+console.log('Highlight and verification contract checks passed');

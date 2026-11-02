@@ -1,0 +1,10 @@
+const fs=require('fs');const assert=require('assert');
+const code=fs.readFileSync('script.js','utf8');
+assert(code.includes("location.origin + '/api'"));
+assert(code.includes("'/find'"));
+assert(code.includes("'/spl/'"));
+const api=fs.readFileSync('api/index.js','utf8');
+assert(api.includes('dailymed.nlm.nih.gov'));
+assert(api.includes('UUID.test'));
+assert(!api.includes('req.query.url'));
+console.log('Same-origin relay contract passed');

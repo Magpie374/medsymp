@@ -1,0 +1,17 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="white", pad="0.25", nodesep="0.3", ranksep="0.42"];
+  node [shape=box, style="rounded,filled", fillcolor="#eaf4f5", color="#13727d", fontname="Arial", fontsize=12, margin="0.18,0.12"];
+  edge [color="#456a77", arrowsize=0.7];
+  A [label="User inputs\nMedications + symptoms"];
+  B [label="Browser app\nHTML / CSS / JavaScript"];
+  C [label="Validate names\nOptional typo hints"];
+  D [label="Search FDA drug labels\nGeneric / brand / ingredient"];
+  E [label="openFDA API", fillcolor="#def3ec"];
+  F [label="Rank recent matching records\nUp to 8 checked"];
+  G [label="Extract warning and\nadverse-reaction sections"];
+  H [label="Symptom synonyms + context checks"];
+  I [label="Result: Yes / Mentioned /\nNo / Unable to check", fillcolor="#fff0d7"];
+  J [label="Summary + excerpt +\nFDA label link"];
+  A -> B -> C -> D -> E -> F -> G -> H -> I -> J;
+  E -> I [style=dashed,label="API errors",fontname="Arial",fontsize=9];
+}

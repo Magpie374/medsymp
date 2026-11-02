@@ -1,0 +1,11 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const js=fs.readFileSync('script.js','utf8');
+const snippet=js.match(/function matchingApprovedApplication\(item, drug\)\{[\s\S]*?\n\}/)[0];
+const ctx={normalize:s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()};
+vm.createContext(ctx);vm.runInContext(snippet+';this.check=matchingApprovedApplication;',ctx);
+const record={products:[{brand_name:'JUVMO',active_ingredients:[{name:'TAVAPADON'}]}]};
+assert(ctx.check(record,'Juvmo'));
+assert(ctx.check(record,'tavapadon'));
+assert(!ctx.check(record,'other drug'));
+assert(!ctx.check({products:[]},'Juvmo'));
+console.log('General Drugs@FDA name matching checks passed');

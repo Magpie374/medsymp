@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MedSymp — Is the symptom potentially associated with the medication?</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+<main class="shell">
+  <header><div class="logo-wrap"><img src="assets/medsymp-logo.png" alt="MedSymp logo"><div class="brand-block"><h1>Is the symptom potentially associated with the medication?</h1></div></div><div class="header-bottom-row"><p class="header-reminder" role="note"><strong>Important:</strong> A label mention does not prove cause. “No” means not found in the selected label. Ask a healthcare professional about medication concerns; do not change medication use based on this app.</p><a class="feedback-button" href="mailto:MargaretYzhu@outlook.com?subject=MedSymp%20Feedback" aria-label="Send feedback about MedSymp">FEEDBACK</a></div></header>
+  <section class="panel" aria-labelledby="input-heading">
+    <h2 id="input-heading">Enter medications and symptoms</h2>
+    <p class="hint">One per line · Up to 5 medications and 8 symptoms</p>
+    <div class="columns"><label>Medication names<textarea id="drugs" rows="5" spellcheck="false" placeholder="metformin&#10;ibuprofen"></textarea></label><label>Symptoms<textarea id="symptoms" rows="5" placeholder="headache&#10;dizziness"></textarea></label></div>
+    <div class="typo-inline" id="typoSection" aria-labelledby="typo-heading"><strong id="typo-heading">Typo check</strong><div id="typoResults" aria-live="polite">Suggestions will appear here as you type.</div></div>
+    <div class="actions"><button id="searchBtn" type="button">Check FDA labels</button><button id="clearBtn" type="button" class="secondary">Clear</button></div>
+    <p id="message" class="message" role="status" aria-live="polite"></p>
+  </section>
+  <section class="panel hidden" id="resultsSection" aria-labelledby="results-heading"><h2 id="results-heading">Search results</h2><div id="results"></div></section>
+  
+</main>
+<script src="script.js" defer></script>
+</body>
+</html>

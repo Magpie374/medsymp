@@ -1,0 +1,1 @@
+const fs=require('fs');const assert=require('assert');const s=fs.readFileSync('script.js','utf8');assert(s.includes('resolveNdcNames'));assert(s.includes('resolveCurrentLabel'));assert(s.includes('searchDrugCore'));assert(s.includes('sameDrugName'));console.log('Generic brand discovery checks passed');
